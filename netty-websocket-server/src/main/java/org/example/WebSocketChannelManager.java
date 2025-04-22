@@ -1,5 +1,8 @@
 package org.example;
 
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import org.springframework.stereotype.Component;
+
 import java.nio.channels.Channel;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

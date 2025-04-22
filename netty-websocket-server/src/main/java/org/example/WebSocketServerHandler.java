@@ -1,5 +1,14 @@
 package org.example;
 
+import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.codec.http.QueryStringDecoder;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import io.netty.util.AttributeKey;
+
+import java.nio.channels.Channel;
+
 @ChannelHandler.Sharable
 public class WebSocketServerHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
@@ -26,7 +35,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<TextWebS
 
         // TODO: 鉴权逻辑
         if ("123456".equals(token)) {
-            channelManager.add(userId, ctx.channel());
+            channelManager.add(userId, (Channel) ctx.channel());
             System.out.println("绑定用户：" + userId);
         } else {
             ctx.close();
@@ -35,6 +44,6 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<TextWebS
 
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) {
-        channelManager.remove(ctx.channel());
+        channelManager.remove((Channel) ctx.channel());
     }
 }
